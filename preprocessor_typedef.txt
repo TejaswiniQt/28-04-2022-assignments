@@ -1,0 +1,562 @@
+========================================= PREPROCESSORS AND MACROS ===========================
+
+1) What will be the output of the C program?
+#include<stdio.h>
+#define CONDITION(i)\
+printf("preprocessor works\n");                         
+int main()
+{
+	CONDITION(0);
+	return 0;
+}
+
+o/p: preprocessor works
+->here #define CONDITION(i) endding with backslash(/) threrefore it considers next line(In macros to write multiple lines we use \ (back slash) ).
+ So after line #define CONDITION(i) will be executed, so it prints preprocessor works
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2) What will be the output of the C program?
+#include<stdio.h>
+# define loop while(1)
+int main()
+{
+	loop;  
+	printf("preprocessor-aptitude");
+	return 0;
+}
+
+o/p: no output,because program never ends because while(1); forms a infinite loop and it will not come out of 
+while loop since while loopis always true because of while(1); statement
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+3) What will be the output of the C program?
+#include<stdio.h>
+# define x --5
+int main()
+{
+	printf("%d",x);
+	return 0;
+}
+
+o/p:we will get a compile time erros as, error: lvalue required as decrement operand (in line #deine x --5)
+because cannot decrement or increment the value directly
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+4) What will be the output of the C program?
+
+#include<stdio.h>
+#define sqr(x) ++x * ++x
+int main()
+{
+	int a = 3, z;
+	z = ++a * ++a;     
+	a -= 3;
+	printf("%d %d", sqr(a), z);
+	return 0;
+}
+
+o/p: 16 ,25
+
+here, z= ++a * ++a;  given a=3
+      z= 4 * 5; since pre increment first incremented then value is assigned
+      z= 5* 5 ; 
+      z=25
+ and,  a -= 3;
+       a= a-3; here a=5
+       a=5-3;
+       a=2
+then sqr(a) ->sqr(2)
+expanded ++x * ++x   here x=2
+   so,   3 * 4
+         4 * 4
+         16
+so sqr(a)->16
+---------------------------------------------------------------------------------------------------------------------------------------------
+5) What will be the output of the C program?
+#include<stdio.h>                      
+#define x 1+2
+int main()
+{
+	int i;
+	i = x * x * x;
+	printf("%d",i);
+}
+
+o/p: i=7
+here, i = x * x * x;  will be expanded as, 
+      i= 1+2 * 1+2 * 1+2;  
+      i=1+2+2+2; (here * operator has higher precedance than +, so first in 1+2*1+2*1+2, 2*1 and  2*1 will be evaluated first)
+      i=7
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+6) What will be the output of the C program?
+#include<stdio.h>
+#define a =
+int main()
+{
+	int num a 6;
+	printf("%d",num);
+	return 0;
+}
+
+o/p:num=6
+here a is defined as macro and a is assigned with = operator,
+so, in int num a 6; macro will be resolved(a is assigned with =), so it will become, int num=6;
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+7) What will be the output of the C program?
+#include<stdio.h>
+#define fun(x,y) x*y
+int main()
+{
+	int x = 2, y = 1;
+	printf("%d",fun(x + 2, y - 1));
+	return 0;
+}
+
+o/p: 3 
+here, fun(x+2,y-1) is function like macro
+so it goes to fun(x,y) and expands like, x is replaced with 2+2 and y is replaced with 1-1
+so, fun(x+2,y-1) will become fun(2+2,1-1)
+so,  x*y
+     2+2*1-1   here x=2+2 , and y=1-1
+     2+2-1     2*1 is evaluated first since multiplication operator has higher priority than +(addition) and -(subtraction)operators 
+     4-1
+     3
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+8) What will be the output of the C program?
+#include<stdio.h>
+int main()
+{
+	char DATE[15] = "Current Date";
+	printf("%s\n", __DATE__ );
+	return 0;
+}
+
+o/p: Apr 28 2022  (it prints current date in character literal in "MMM DD YYYY" format.
+)
+here, _DATE_ is a C predefined macro, it prints current date in MMM DD YYYY  format
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+9) What will be the output of the C program?
+#include<stdio.h>
+int main()
+{
+	char TIME[15] = "Current Time";
+	printf("%s\n",__TIME__);
+	return 0;
+}
+
+
+o/p: 06:42:37 (it prints current time in characetr literal in HH:MM:SS format)
+here, _TIME_ is a C predefined macro, it prints current time in HH:MM:SS format
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+10) What will be the output of the C program?
+#include<stdio.h>
+int main()
+{	
+	printf("Line :%d\n", __LINE__ );
+	return 0;
+}
+
+o/p: Line :4
+here, _LINE_ is predefined macro in c, which prints current line number
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+11) What will be the output of the C program?
+#include<stdio.h>
+#define  preprocessor_works(x, y)  \
+	printf(#x " and " #y " are great!\n")
+int main(void) {
+	preprocessor_works(you, me);
+	return 0;
+}
+
+o/p:you and me are great!
+
+here, # is know as Stringize 
+When # is used within a macro definition, # macro converts a macro parameter into a string constant.
+When we are passing any special arguments or string as a parameter value, then # macros are get used.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+12) What will be the output of the C program?
+#include<stdio.h>
+# define puts  "%s C preprocessor"
+int main()
+{
+	printf(puts, puts);
+	return 0;
+}
+
+o/p: %s C preprocessor C preprocessor
+here, in printf(puts,puts); so, puts is a macro here
+itbecomes, printf("%s C preprocessor","%s C preprocessor");
+so it prints-> %s C preprocessor C preprocessor
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+13) What will be the output of the C program?
+#include<stdio.h>
+#define preprocessor(n) printf ("macro" #n " = %d", macro##n)
+int main(void) {
+	int macro25 = 47;
+	preprocessor(25);
+	return 0;
+}
+
+o/p: macro25=47
+here, when preprocessor(25) is executed, since preprocessor(25) is a macro ,it is expanded as
+printf("macro" #n" = %d", macro##n)
+here n is 25, so #n is #22 becomes string constant, so it becomes printf("macro25=%d",macro##25)
+## is a conactenation operator so,macro##25 becomes macro25
+so, it becomes,  printf("macro25=%d",macro25) 
+here in program macro25=47
+so output is macro25=47 is printed by printf statement
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+14) What will be the output of the C program?
+#include<stdio.h>
+#include<string.h>
+#define MACRO(num) ++num 
+int main()
+{
+	char *ptr = "preprocessor";
+	int num =strlen(ptr);
+	printf("%s  ", MACRO(ptr));
+	printf("%d", MACRO(num));
+	return 0;
+}
+o/p: reprocessor 13
+here, num=12 (by using the strlen string function we caluculated the length of string ptr)
+and, MACRO(ptr); here ptr will be the starting address of the string
+so first ptr is incremented by 1,then prints reprocessor 
+in second printf("%d",MACRO(num)); here numis 12, then by expanding macro ii is incremented by 1
+so second printf prints 13
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+15) What will be the output of the C program?
+#include<stdio.h>
+#define i 10
+int main()
+{
+	#define i 20
+	printf("%d",i);
+	return 0;
+}
+
+o/p: here we will get a warning that macro is already defined,then it prints 20
+in #define 1 20 here we get warning that "i" redefined
+so,In order to redefine macro first undefine the defined macro, then define it again
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+16) What will be the output of the C program?
+#include<stdio.h>
+#define clrscr() 50
+int main()
+{
+	clrscr();
+	printf("%d\n",clrscr());
+	return 0;
+}
+
+o/p: 50
+here, clrscr() macro is replaced with 50 in printf statement,so we 50 as output
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+17) What will be the output of the C program?
+#include<stdio.h>
+#define int char
+main()
+{
+	int i=5;
+	printf ("sizeof (i) =%d", sizeof (i));
+}
+
+o/p: sizeof(i)=1
+here,by using #define int char,we have define int as char
+so, int i=5; here int means char
+so in printf it prints sizeof(i) as 1,because variable i is a char datatype
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+18) Write programs to understand the usage of below preprocessor directives.
+#include, #if, #ifdef, #ifndef, #else, #elif, #endif, #define, #undef, #line
+
+
+1.#include
+
+ex:
+#include<stdio.h>
+int main()
+{
+int a=5;
+printf("a=%d\n",a);
+return 0;
+}
+
+
+
+2.#if
+ex:
+#include<stdio.h>
+#define NUMBER 1
+
+int main()
+{
+#if NUMBER==2
+printf("YES\n");
+#else
+printf("NO\n");
+#endif
+
+return 0;
+}
+
+
+3.#ifndef
+ex:
+#include<stdio.h>
+#define NUMBER 1
+
+int main()
+{
+#ifndef NUMBER
+#define NUMBER 20
+#endif
+#ifndef S2
+#define S2 "Hello"
+printf(S2);
+#endif
+
+return 0;
+}
+
+
+4.#elif
+ex:
+#include<stdio.h>
+#define NUM 1 
+
+int main()
+{
+    #if NUM==2 
+    printf("YES\n");
+    #elif NUM==1 
+    printf("NUM=%d\n",NUM);
+    #endif
+    return 0;
+}
+
+
+
+5.#define
+ex:
+#include<stdio.h>
+#define NUM 5
+
+int main()
+{
+    int arr[10];
+    int i;
+    printf("Enter %d array elements:\n",NUM);
+    for(i=0;i<NUM;i++)
+    {
+        scanf("%d",(arr+i));
+    }
+    
+    printf("The array elements:\n");
+    for(i=0;i<NUM;i++)
+    {
+        printf("%d ",*(arr+i));
+    }
+    printf("\n");
+    return 0;
+}
+
+
+6.#undef
+ex:
+#include<stdio.h>
+#define NUM 5
+#undef NUM 5 //it will cancel the macro definition which was defined NUM as 5
+
+int main()
+{
+    printf("NUM=%d\n",NUM); //we get a compile error as "NUM undeclared"
+    
+    return 0;
+}
+
+
+7.__LINE__
+ex:
+#include<stdio.h>
+int main()
+{
+    printf("Current line number=%d\n",__LINE__);
+    return 0;
+}
+
+===================================== TYPEDEF =========================================
+
+1) In the following code, the P2 is Integer Pointer or Integer?
+typedef int *ptr;
+ptr p1, p2;
+
+Ans->p2 is interger pointer
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+2)  In the following code what is 'P'?
+typedef char *charp;
+const charp P;
+
+Ans->P is constant,where p is a char pointer which is constant
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+3) What is x in the following program?
+#include<stdio.h>
+int main()
+{
+    typedef char (*(*arrfptr[3])())[10];
+    arrfptr x;
+    return 0;
+}
+
+Ans->here, x is an array of three function pointer
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+4) What is apfArithmatics in the below statement?
+typedef int (*apfArithmatics[3])(int,int); 
+
+Ans: here, apfArithmatics is array of three function pointers
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+5) What is pf in the below statement?
+typedef int (*pf)(int);
+
+Ans : here, pf is a function pointer,which is accepting one int as parameter,and return type is int
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+6) What do the following declarations mean?
+typedef char *pc;    ->pc is a pointer to the char
+typedef pc fpc();    ->fpc() is function returning pointer to char
+typedef fpc *pfpc;   ->pfpc is pointer to the function returning pointer to char
+typedef pfpc fpfpc();  ->fpfpc() is function returning a pointer to a function returning pointer to char
+typedef fpfpc *pfpfpc;  ->pfpfpc is a pointer to the function returnig a pointer to a function returning a pointer to char
+pfpfpc a[N];  ->a is an array of pointers to functions returning a pointer to a function taking no arguments returning a pointer to a char 
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+7) Write few programs using typedef on structures and enums.
+
+program using typedef on structures
+ex1:
+#include<stdio.h>
+typedef struct student
+{
+    int rollno;
+    char name[20];
+}stu;
+
+int main()
+{
+   stu s1;
+   printf("Enter rollno:");
+   scanf("%d",&s1.rollno);
+   printf("Enter name:");
+   scanf("%s",s1.name);
+   printf("\n");
+   printf("The s1 contains:\n");
+   printf("rollno=%d\n",s1.rollno);
+   printf("Name=%s\n",s1.name);
+   return 0;
+}
+
+
+
+ex2:
+#include<stdio.h>
+typedef int INTEGER;
+
+int main()
+{
+    INTEGER a=5;
+    printf("a=%d",a);
+    return 0;
+}
+
+
+ex3:
+#include<stdio.h>
+typedef int *ptr;
+
+int main()
+{
+    int a=5;
+    ptr p1;
+    p1=&a;
+    printf("a=%d",*p1);
+    return 0;
+}
+
+
+program on enums:
+ex1:
+#include<stdio.h>
+enum week{sun,mon,tue};
+int main()
+{
+    enum week day;
+    day=mon;
+    printf("Mon=%d\n",day);
+    return 0;
+}
+
+ex2:
+#include<stdio.h>
+enum week{sun=5,mon,tue=3};
+int main()
+{
+    enum week day;
+    day=mon;
+    printf("Mon=%d\n",day);
+    return 0;
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
